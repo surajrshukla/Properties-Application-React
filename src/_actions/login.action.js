@@ -1,6 +1,6 @@
 import { API_URL } from './utility.action';
-import { history } from '../_helpers/history';
 import { LoginConstants } from '../_constants/login.constants';
+import { history } from '../_helpers/history';
 
 const axios = require('axios');
 
@@ -18,6 +18,7 @@ function login(formData) {
         axios.post(`${API_URL}/login_services/login`, request_data).then((response) => {
             if (response.data.code === 200) {
                 dispatch(success(response));
+                localStorage.setItem('accessToken', response.data.data.accessToken);
                 history.push("/dashboard")
             } else {
                 dispatch(failure(response));
