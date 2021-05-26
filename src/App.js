@@ -4,10 +4,10 @@ import './App.css';
 import { history } from './_helpers/history';
 import PublicRoute from './_routers/PublicRoute';
 import PrivateRoute from './_routers/PrivateRoute';
-
-
-
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+import Register from './components/register/register';
+import Login from './components/login/login';
 
 const theme = createMuiTheme({
   palette: {
@@ -20,16 +20,16 @@ const theme = createMuiTheme({
 class App extends Component {
   render() {
     return (
-      <div className="h-100">
-        hey there
-        <MuiThemeProvider theme={theme}>
-          <Router history={history} >
-            <Switch>
-              {/* <PublicRoute exact path="/" component={Adminlogin} /> */}
-            </Switch>
-          </Router>
-        </MuiThemeProvider>
-      </div>
+        <div className="h-100">
+            <MuiThemeProvider theme={theme}>
+                <Router history={history} >
+                    <Switch>
+                        <PublicRoute exact path="/" component={Register} />
+                        <PublicRoute exact path="/login" component={Login} />
+                    </Switch>
+                </Router>
+            </MuiThemeProvider>
+        </div>
     );
   }
 }
