@@ -1,12 +1,8 @@
-import { API_URL } from './utility.action';
+import { api } from './utility.action';
 import { RegisterConstants } from '../_constants/register.constants';
 import { history } from '../_helpers/history';
 
-
-const axios = require('axios');
-
-
-export const registerAction =  {
+export const registerAction = {
     register
 }
 
@@ -16,7 +12,7 @@ function register(formData) {
 
     return dispatch => {
         dispatch(request());
-        axios.post(`${API_URL}/register_services/register`, request_data).then((response) => {
+        api().post(`/register_services/register`, request_data).then((response) => {
             if (response.data.code === 200) {
                 dispatch(success(response));
                 history.push("login")

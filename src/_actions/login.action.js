@@ -1,11 +1,11 @@
-import { API_URL } from './utility.action';
+import { api } from './utility.action';
 import { LoginConstants } from '../_constants/login.constants';
 import { history } from '../_helpers/history';
 
 const axios = require('axios');
 
 
-export const loginActions =  {
+export const loginActions = {
     login
 }
 
@@ -15,7 +15,7 @@ function login(formData) {
 
     return dispatch => {
         dispatch(request());
-        axios.post(`${API_URL}/login_services/login`, request_data).then((response) => {
+        api().post(`/login_services/login`, request_data).then((response) => {
             if (response.data.code === 200) {
                 dispatch(success(response));
                 localStorage.setItem('accessToken', response.data.data.accessToken);

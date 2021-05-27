@@ -2,13 +2,13 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 
-const PrivteRoute = ({ component: Component, ...rest }) => (
-    <Route
+const PrivteRoute = ({ component: Component, ...rest }) => {
+    return <Route
         {...rest}
         render={(props) =>
-            localStorage.getItem('access_token')
+            localStorage.getItem('accessToken')
                 ? <Component {...props} />
-                : <Redirect to={{ pathname: '/' }} />}
+                : <Redirect to={{ pathname: '/login' }} />}
     />
-);
+};
 export default PrivteRoute;
