@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import Property from './property';
 
 class Properties extends Component {
     render() {
@@ -6,7 +7,7 @@ class Properties extends Component {
         return (
             <div className="row properties"> {
                 properties.map((property) => {
-                    return
+                    return <Property property={property} />
                 })
             }
             </div>

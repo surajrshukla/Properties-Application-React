@@ -13,3 +13,5 @@ class Property extends Component {
         )
     }
 }
+
+export default Property;

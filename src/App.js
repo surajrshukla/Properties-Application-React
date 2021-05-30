@@ -11,6 +11,10 @@ import Register from './components/register/register';
 import Login from './components/login/login';
 import Layout from './components/layout/layout';
 import Dashboard from './components/property/dashboard';
+import UserPropertyDashboard from './components/property/user_property/user_property_dashboard';
+import PropertyForm from './components/property/user_property/property_form';
+
+
 
 const theme = createMuiTheme({
     palette: {
@@ -31,6 +35,8 @@ class App extends Component {
                             <PublicRoute exact path="/login" component={Login} />
                             <Layout>
                                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                                <PrivateRoute exact path="/my_properties" component={UserPropertyDashboard} />
+                                <PrivateRoute exact path="/my_properties/:id" component={PropertyForm} />
                             </Layout>
                         </Switch>
                     </Router>
