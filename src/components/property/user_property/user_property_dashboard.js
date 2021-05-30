@@ -22,13 +22,14 @@ class UserPropertyDashboard extends Component {
         history.push("/my_properties/0")
     }
 
-    render() {
-        if (this.props.loading) return <Loading />;
+    callGetMyProperties = () => {
+        this.props.getMyProperties(this.props.skippedMyProperties + dataToSkip);
+    }
 
-        const { myPropertyList, getMyProperties, skippedMyProperties } = this.props;
-        debugger
+    render() {
+        const { myPropertyList, hasMorePyProperties } = this.props;
         return (
-            <div className="row m-4">
+            <div className="row m-4 my_properties">
                 <div className="col-6">
                     <h4 className="text-muted">My properties</h4>
                 </div>
@@ -42,22 +43,26 @@ class UserPropertyDashboard extends Component {
                             <h5>No Properties Found</h5>
                         </div>
                     ) : (
-                            <InfiniteScroll
-                                dataLength={myPropertyList.length}
-                                next={getMyProperties(skippedMyProperties + dataToSkip)}
-                                hasMore={true}
-                                loader={<h4>Loading...</h4>}
-                                endMessage={
-                                    <p className="text-center">
-                                        <b>Yay! You have seen it all</b>
-                                    </p>
-                                }
-                            >
-                                <Properties properties={myPropertyList} />
-                            </InfiniteScroll>
-                        )}
+                            <div>
+                                <InfiniteScroll
+                                    dataLength={myPropertyList.length}
+                                    next={this.callGetMyProperties}
+                                    height={500}
+                                    hasMore={hasMorePyProperties}
+                                    loader={<h4 className="text-center">Loading...</h4>}
+                                    endMessage={
+                                        <p className="text-center">
+                                            <b>Yay! You have seen it all</b>
+                                        </p>
+                                    }
+                                >
+                                    <Properties isMyProperty={true} properties={myPropertyList} />
+                                </InfiniteScroll>
+                            </div>
+                        )
+                    }
                 </div>
-            </div>
+            </div >
         )
     }
 }
@@ -67,7 +72,8 @@ function mapStateToProps(state) {
     return {
         myPropertyList: state.property.my_property_list,
         loading: state.property.loading,
-        skippedMyProperties: state.property.skipped_my_proprties
+        skippedMyProperties: state.property.skipped_my_proprties,
+        hasMorePyProperties: state.property.has_more_my_properties
     }
 }
 

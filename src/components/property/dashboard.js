@@ -14,10 +14,12 @@ class Dashboard extends Component {
         this.props.getProperties(0)
     }
 
-    render() {
-        if (this.props.loading) return <Loading />
+    callGetProperties = () => {
+        this.props.getProperties(this.props.skipped + dataToSkip);
+    }
 
-        const { propertyList, getProperties, skipped } = this.props;
+    render() {
+        const { propertyList, hasMoreProperties } = this.props;
 
         return (
             <div className="row dashboard h-100">
@@ -27,19 +29,25 @@ class Dashboard extends Component {
                             <h5>No Properties Found</h5>
                         </div>
                     ) : (
-                            <InfiniteScroll
-                                dataLength={propertyList.length}
-                                next={getProperties(skipped + dataToSkip)}
-                                hasMore={true}
-                                loader={<h4>Loading...</h4>}
-                                endMessage={
-                                    <p className="text-center">
-                                        <b>Yay! You have seen it all</b>
-                                    </p>
-                                }
-                            >
-                                <Properties properties={propertyList} />
-                            </InfiniteScroll>
+                            <div style={{
+                                overflow: 'auto',
+                                display: 'flex',
+                                flexDirection: 'column-reverse',
+                            }}>
+                                <InfiniteScroll
+                                    dataLength={propertyList.length}
+                                    next={this.callGetProperties}
+                                    hasMore={hasMoreProperties}
+                                    loader={<h4>Loading...</h4>}
+                                    endMessage={
+                                        <p className="text-center">
+                                            <b>Yay! You have seen it all</b>
+                                        </p>
+                                    }
+                                >
+                                    <Properties isMyProperty={false} properties={propertyList} />
+                                </InfiniteScroll>
+                            </div>
                         )}
                 </div>
             </div>
@@ -52,7 +60,7 @@ function mapStateToProps(state) {
         propertyList: state.property.property_list,
         loading: state.property.loading,
         skipped: state.property.skipped,
-
+        hasMoreProperties: state.property.has_more_properties
     }
 }
 

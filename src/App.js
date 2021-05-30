@@ -13,7 +13,7 @@ import Layout from './components/layout/layout';
 import Dashboard from './components/property/dashboard';
 import UserPropertyDashboard from './components/property/user_property/user_property_dashboard';
 import PropertyForm from './components/property/user_property/property_form';
-
+import PropertyFormView from './components/property/user_property/property_form_view';
 
 
 const theme = createMuiTheme({
@@ -36,7 +36,9 @@ class App extends Component {
                             <Layout>
                                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                                 <PrivateRoute exact path="/my_properties" component={UserPropertyDashboard} />
+                                <PrivateRoute exact path="/dashboard/:id" component={PropertyFormView} />
                                 <PrivateRoute exact path="/my_properties/:id" component={PropertyForm} />
+
                             </Layout>
                         </Switch>
                     </Router>

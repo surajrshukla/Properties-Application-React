@@ -3,11 +3,12 @@ import Property from './property';
 
 class Properties extends Component {
     render() {
-        const { properties } = this.props;
+        const { properties, isMyProperty } = this.props;
+
         return (
             <div className="row properties"> {
                 properties.map((property) => {
-                    return <Property property={property} />
+                    return <Property isMyProperty={isMyProperty} key={property._id} property={property} />
                 })
             }
             </div>

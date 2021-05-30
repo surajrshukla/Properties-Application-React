@@ -7,15 +7,22 @@ export function property(state = {}, action) {
             return {
                 ...state,
                 loading: true,
-                property_list: []
             }
         case PropertyConstants.GET_PROPERTY_LIST_SUCCESS: {
-            const properties = isEmpty(state.property_list) ? action.payload.data.data.property_list : [...state.property_list, ...action.payload.data.data.property_list]
+            let properties;
+            if (isEmpty(state.property_list)) {
+                properties = action.payload.data.data.property_list
+            } else if (action.payload.data.data.reassign) {
+                properties = action.payload.data.data.property_list
+            } else {
+                properties = [...state.property_list, ...action.payload.data.data.property_list]
+            }
             return {
                 ...state,
                 loading: false,
                 property_list: properties,
                 skipped: action.payload.data.data.skipped,
+                has_more_properties: action.payload.data.data.has_more_data
             }
         }
         case PropertyConstants.GET_PROPERTY_LIST_FAILURE:
@@ -28,15 +35,22 @@ export function property(state = {}, action) {
             return {
                 ...state,
                 loading: true,
-                my_property_list: []
             }
         case PropertyConstants.GET_MY_PROPERTY_LIST_SUCCESS: {
-            const properties = isEmpty(state.my_property_list) ? action.payload.data.data.my_property_list : [...state.property_list, ...action.payload.data.data.my_property_list]
+            let properties;
+            if (isEmpty(state.my_property_list)) {
+                properties = action.payload.data.data.property_list
+            } else if (action.payload.data.data.reassign) {
+                properties = action.payload.data.data.property_list
+            } else {
+                properties = [...state.my_property_list, ...action.payload.data.data.property_list]
+            }
             return {
                 ...state,
                 loading: false,
                 my_property_list: properties,
                 skipped_my_proprties: action.payload.data.data.skipped_my_proprties,
+                has_more_my_properties: action.payload.data.data.has_more_data
             }
         }
         case PropertyConstants.GET_MY_PROPERTY_LIST_FAILURE:
@@ -54,7 +68,7 @@ export function property(state = {}, action) {
         case PropertyConstants.GET_PROPERTY_DETAIL_REQUEST:
             return {
                 ...state,
-                loading: false,
+                loading: true,
             }
         case PropertyConstants.GET_PROPERTY_DETAIL_SUCCESS:
             return {
@@ -97,6 +111,52 @@ export function property(state = {}, action) {
                 ...state,
                 loading: false
             }
+        case PropertyConstants.TOGGLE_FAVOURITE_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case PropertyConstants.TOGGLE_FAVOURITE_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            }
+        case PropertyConstants.TOGGLE_FAVOURITE_FAILURE:
+            return {
+                ...state,
+                loading: false
+            }
+        case PropertyConstants.DELETE_IMAGE_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case PropertyConstants.DELETE_IMAGE_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            }
+        case PropertyConstants.DELETE_IMAGE_FAILURE:
+            return {
+                ...state,
+                loading: false
+            }
+        case PropertyConstants.INCREAMENT_VISIT_COUNT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case PropertyConstants.INCREAMENT_VISIT_COUNT_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            }
+        case PropertyConstants.INCREAMENT_VISIT_COUNT_FAILURE:
+            return {
+                ...state,
+                loading: false
+            }
+
         default:
             return state
     }
